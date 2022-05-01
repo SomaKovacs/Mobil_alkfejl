@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1034041047912",
+    "project_id": "movieticketshop",
+    "storage_bucket": "movieticketshop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034041047912:android:123877522b3d2149cc74dd",
+        "android_client_info": {
+          "package_name": "com.example.movieticketshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1034041047912-fikdaf622945d19ckrvv5bcfpb320pj8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.movieticketshop",
+            "certificate_hash": "f4f53d93e13d5c39ea000501251c56aa7566174f"
+          }
+        },
+        {
+          "client_id": "1034041047912-dndpqdt450tvn0dsjcgmo4hc4u6g9pel.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5j3dbTwu9IEb0Mj6Y7IoYBX75kdla0_c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1034041047912-dndpqdt450tvn0dsjcgmo4hc4u6g9pel.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

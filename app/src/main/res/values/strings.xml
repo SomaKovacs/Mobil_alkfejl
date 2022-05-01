@@ -1,0 +1,112 @@
+<resources>
+    <string name="app_name">MovieTicketShop</string>
+    <string name="login">Bejelentkezés</string>
+    <string name="registration">Regisztráció</string>
+    <string name="loginEmail">Email</string>
+    <string name="loginPassword">Jelszó</string>
+    <string name="loginWithGoogle">Bejelentkezés Google-fiókkal</string>
+    <string name="registrationCancel">Mégse</string>
+    <string name="registerPasswordAgain">Jelszó újra</string>
+    <string name="username">Felhasználónév</string>
+    <string name="item_placeholder">Leírás</string>
+    <string name="item_info_placeholder">Korhatár</string>
+    <string name="add_to_basket">Kosárba</string>
+    <string name="title">Cím</string>
+    <string name="length">Időtartam</string>
+    <string name="logout">Kijelentkezés</string>
+    <string name="settings">Beállítások</string>
+    <string name="cart">Kosár</string>
+    <string name="search">Kereső</string>
+
+    <string-array name="movie_item_age_rating">
+        <item>R</item>
+        <item>R</item>
+        <item>PG-13</item>
+        <item>R</item>
+        <item>13 and up</item>
+        <item>R</item>
+        <item>PG-13</item>
+        <item>R</item>
+        <item>PG-13</item>
+        <item>PG-13</item>
+    </string-array>
+
+    <string-array name="movie_length">
+        <item>142min</item>
+        <item>175min</item>
+        <item>152min</item>
+        <item>202min</item>
+        <item>96min</item>
+        <item>195min</item>
+        <item>201min</item>
+        <item>154min</item>
+        <item>178min</item>
+        <item>178min</item>
+    </string-array>>
+
+    <string-array name="movie_item_desc">
+        <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor </item>
+        <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor </item>
+        <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor </item>
+        <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor </item>
+        <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor </item>
+        <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor </item>
+        <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor </item>
+        <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor </item>
+        <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor </item>
+        <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor </item>
+
+    </string-array>
+
+    <array name="movie_item_rates">
+        <item>3.5</item>
+        <item>5</item>
+        <item>4</item>
+        <item>1.5</item>
+        <item>5</item>
+        <item>3</item>
+        <item>4.5</item>
+        <item>4</item>
+        <item>5</item>
+        <item>2.5</item>
+    </array>
+
+    <string-array name="movie_item_titles">
+        <item>The Shawshank Redemption</item>
+        <item>The Godfather</item>
+        <item>The Dark Knight </item>
+        <item>The Godfather: Part II</item>
+        <item>12 Angry Men</item>
+        <item>Schindlers List </item>
+        <item>The Lord of the Rings: The Return of the King</item>
+        <item>Pulp Fiction</item>
+        <item>The Lord of the Rings: The Fellowship of the Ring</item>
+        <item>The Good, the Bad and the Ugly</item>
+    </string-array>
+
+    <array name="movie_item_images">
+        <item>@drawable/tsr</item>
+        <item>@drawable/gf</item>
+        <item>@drawable/dark_knight</item>
+        <item>@drawable/gf_2</item>
+        <item>@drawable/valami</item>
+        <item>@drawable/sl</item>
+        <item>@drawable/returnoftheking</item>
+        <item>@drawable/pf</item>
+        <item>@drawable/fellowshipofthering</item>
+        <item>@drawable/tgtbtu</item>
+    </array>
+
+    <array name="movie_item_price">
+        <item>1600Ft</item>
+        <item>1500Ft</item>
+        <item>1500Ft</item>
+        <item>3000Ft</item>
+        <item>1800Ft</item>
+        <item>2350Ft</item>
+        <item>2000Ft</item>
+        <item>2000Ft</item>
+        <item>2000Ft</item>
+        <item>2000Ft</item>
+    </array>
+</resources>
