@@ -112,7 +112,6 @@ public class MovieTicketAdapter extends RecyclerView.Adapter<MovieTicketAdapter.
             mItemImage = itemView.findViewById(R.id.itemImage);
             mRatingBar = itemView.findViewById(R.id.ratingBar);
 
-            itemView.findViewById(R.id.add_to_cart).setOnClickListener(view -> ((ShoppingActivity)nContext).updateAlertIcon());
 
         }
 
@@ -125,6 +124,8 @@ public class MovieTicketAdapter extends RecyclerView.Adapter<MovieTicketAdapter.
             mRatingBar.setRating(currentItem.getRatingInfo());
 
             Glide.with(nContext).load(currentItem.getImageResource()).into(mItemImage);
+            itemView.findViewById(R.id.add_to_cart).setOnClickListener(view -> ((ShoppingActivity)nContext).updateAlertIcon(currentItem));
+            itemView.findViewById(R.id.delete_from_cart).setOnClickListener(view -> ((ShoppingActivity)nContext).deleteTicket(currentItem));
         }
     }
 }

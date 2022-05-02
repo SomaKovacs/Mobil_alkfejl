@@ -60,6 +60,8 @@ public class ShoppingActivity extends AppCompatActivity {
     private FirebaseFirestore mFirestore;
     private CollectionReference mItems;
 
+    private NotificationHandler mNotificationHandler;
+
     private SharedPreferences preferences;
 
     private boolean viewRow = true;
@@ -93,6 +95,8 @@ public class ShoppingActivity extends AppCompatActivity {
         filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         this.registerReceiver(powerReceiver, filter);
 
+        mNotificationHandler = new NotificationHandler(this);
+
     }
 
     BroadcastReceiver powerReceiver = new BroadcastReceiver() {
@@ -118,9 +122,10 @@ public class ShoppingActivity extends AppCompatActivity {
 
     private void queryData() {
         mItemsData.clear();
-        mItems.orderBy("title").limit(itemLimit).get().addOnSuccessListener(queryDocumentSnapshots -> {
+        mItems.orderBy("cartedCount", Query.Direction.DESCENDING).limit(itemLimit).get().addOnSuccessListener(queryDocumentSnapshots -> {
             for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                 MovieTicket item = document.toObject(MovieTicket.class);
+                item.setId(document.getId());
                 mItemsData.add(item);
             }
 
@@ -151,10 +156,24 @@ public class ShoppingActivity extends AppCompatActivity {
                     itemsPrice[i],
                     itemsAgeLimit[i],
                     itemRate.getFloat(i, 0),
-                    itemsImageResources.getResourceId(i, 0)));
+                    itemsImageResources.getResourceId(i, 0),
+                    0));
         }
 
         itemsImageResources.recycle();
+    }
+
+    public void deleteTicket(MovieTicket ticket){
+        DocumentReference ref = mItems.document(ticket._getId());
+
+        ref.delete().addOnSuccessListener(success ->{
+            Log.d(LOG_TAG, "Sikeresen törölt mozijegy: " + ticket._getId());
+        }).addOnFailureListener(failure -> {
+            Toast.makeText(this, "A jegyet " + ticket._getId() + " nem sikerült törölni!.", Toast.LENGTH_LONG).show();
+        });
+
+        queryData();
+        mNotificationHandler.cancel();
     }
 
     @Override
@@ -232,7 +251,7 @@ public class ShoppingActivity extends AppCompatActivity {
     }
 
 
-    public void updateAlertIcon() {
+    public void updateAlertIcon(MovieTicket ticket) {
         cartItems = (cartItems + 1);
         if (0 < cartItems) {
             countTextView.setText(String.valueOf(cartItems));
@@ -242,6 +261,13 @@ public class ShoppingActivity extends AppCompatActivity {
 
         redCircle.setVisibility((cartItems > 0) ? VISIBLE : GONE);
 
+        mItems.document(ticket._getId()).update("cartedCount", ticket.getCartedCount()+1)
+            .addOnFailureListener(failure -> {
+                Toast.makeText(this, "A jegyet " + ticket._getId() + " nem sikerült megvaltoztatni!.", Toast.LENGTH_LONG).show();
+            });
+
+        mNotificationHandler.send(ticket.getTitle());
+        queryData();
     }
 
     @Override

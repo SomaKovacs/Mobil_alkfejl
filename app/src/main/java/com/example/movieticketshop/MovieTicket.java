@@ -1,6 +1,7 @@
 package com.example.movieticketshop;
 
 public class MovieTicket {
+    private String id;
     private String title;
     private String length;
     private String description;
@@ -8,9 +9,10 @@ public class MovieTicket {
     private String ageLimit;
     private float ratingInfo;
     private int imageResource;
+    private int cartedCount;
 
 
-    public MovieTicket(String title, String length, String description, String price, String ageLimit, float ratingInfo, int imageResource) {
+    public MovieTicket(String title, String length, String description, String price, String ageLimit, float ratingInfo, int imageResource, int cartedCount) {
         this.title = title;
         this.length = length;
         this.description = description;
@@ -51,4 +53,15 @@ public class MovieTicket {
         return imageResource;
     }
 
+    public int getCartedCount() {
+        return cartedCount;
+    }
+
+    public String _getId(){
+        return id;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    }
 }
