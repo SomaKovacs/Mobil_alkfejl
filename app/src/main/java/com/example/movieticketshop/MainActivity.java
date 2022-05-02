@@ -1,13 +1,17 @@
 package com.example.movieticketshop;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,7 +29,9 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity
+        extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<String>{
     private static final String LOG_TAG = MainActivity.class.getName();
     private static final String PREF_KEY = MainActivity.class.getPackage().toString();
     private static final int RC_SIGN_IN = 123;
@@ -54,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
+        getSupportLoaderManager().restartLoader(0, null, this);
     }
 
     @Override
@@ -156,4 +163,34 @@ public class MainActivity extends AppCompatActivity {
         //intent.putExtra("SECRET_KEY", SECRET_KEY);
         startActivity(intent);
     }
+
+    public void loginAsGuest(View view) {
+        mAuth.signInAnonymously().addOnCompleteListener(this, task -> {
+            if(task.isSuccessful()){
+                Log.d(LOG_TAG, "Anonym user loged in successfully");
+                startTicketShopping();
+            } else {
+                Log.d(LOG_TAG, "Anonym user log in fail");
+                Toast.makeText(MainActivity.this, "User log in fail: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @NonNull
+    @Override
+    public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
+        return new RandomLoader(this);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<String> loader, String data) {
+        Button button = findViewById(R.id.guestLoginButton);
+        button.setText(data);
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<String> loader) {
+
+    }
+
 }

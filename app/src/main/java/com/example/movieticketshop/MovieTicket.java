@@ -7,7 +7,7 @@ public class MovieTicket {
     private String price;
     private String ageLimit;
     private float ratingInfo;
-    private final int imageResource;
+    private int imageResource;
 
 
     public MovieTicket(String title, String length, String description, String price, String ageLimit, float ratingInfo, int imageResource) {
@@ -18,6 +18,9 @@ public class MovieTicket {
         this.ageLimit = ageLimit;
         this.ratingInfo = ratingInfo;
         this.imageResource = imageResource;
+    }
+
+    public MovieTicket(){
     }
 
     public String getTitle() {
@@ -47,4 +50,5 @@ public class MovieTicket {
     public int getImageResource() {
         return imageResource;
     }
+
 }

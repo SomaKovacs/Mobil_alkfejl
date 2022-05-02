@@ -3,15 +3,27 @@ package com.example.movieticketshop;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,9 +31,15 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 
@@ -33,10 +51,14 @@ public class ShoppingActivity extends AppCompatActivity {
     private TextView countTextView;
     private int cartItems = 0;
     private int gridNumber = 1;
+    private Integer itemLimit = 5;
 
     private RecyclerView mRecyclerView;
     private ArrayList<MovieTicket> mItemsData;
     private MovieTicketAdapter mAdapter;
+
+    private FirebaseFirestore mFirestore;
+    private CollectionReference mItems;
 
     private SharedPreferences preferences;
 
@@ -57,20 +79,63 @@ public class ShoppingActivity extends AppCompatActivity {
         }
 
         mRecyclerView = findViewById(R.id.recyclerView);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(
-                this, gridNumber));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, gridNumber));
         mItemsData = new ArrayList<>();
         mAdapter = new MovieTicketAdapter(this, mItemsData);
         mRecyclerView.setAdapter(mAdapter);
-        Log.d(LOG_TAG, "onCreate");
-        initializeData();
 
+        mFirestore = FirebaseFirestore.getInstance();
+        mItems = mFirestore.collection("Items");
+        queryData();
 
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_POWER_CONNECTED);
+        filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        this.registerReceiver(powerReceiver, filter);
+
+    }
+
+    BroadcastReceiver powerReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String intentAction = intent.getAction();
+
+            if (intentAction == null)
+                return;
+
+            switch (intentAction) {
+                case Intent.ACTION_POWER_CONNECTED:
+                    itemLimit = 10;
+                    queryData();
+                    break;
+                case Intent.ACTION_POWER_DISCONNECTED:
+                    itemLimit = 5;
+                    queryData();
+                    break;
+            }
+        }
+    };
+
+    private void queryData() {
+        mItemsData.clear();
+        mItems.orderBy("title").limit(itemLimit).get().addOnSuccessListener(queryDocumentSnapshots -> {
+            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                MovieTicket item = document.toObject(MovieTicket.class);
+                mItemsData.add(item);
+            }
+
+            if (mItemsData.size() == 0) {
+                initializeData();
+                queryData();
+            }
+
+            // Notify the adapter of the change.
+            mAdapter.notifyDataSetChanged();
+        });
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private void initializeData() {
-        Log.d(LOG_TAG, "initializeData");
         String[] itemsTitle = getResources().getStringArray(R.array.movie_item_titles);
         String[] itemsLength = getResources().getStringArray(R.array.movie_length);
         String[] itemsDesc = getResources().getStringArray(R.array.movie_item_desc);
@@ -79,28 +144,21 @@ public class ShoppingActivity extends AppCompatActivity {
         TypedArray itemRate = getResources().obtainTypedArray(R.array.movie_item_rates);
         TypedArray itemsImageResources = getResources().obtainTypedArray(R.array.movie_item_images);
 
-        // Clear the existing data (to avoid duplication).
-        mItemsData.clear();
-
-        // Create the ArrayList of Sports objects with the titles and
-        // information about each sport.
         for (int i = 0; i < itemsTitle.length; i++) {
-            mItemsData.add(new MovieTicket(itemsTitle[i], itemsLength[i],itemsDesc[i], itemsPrice[i], itemsAgeLimit[i],itemRate.getFloat(i, 0),
+            mItems.add(new MovieTicket(itemsTitle[i],
+                    itemsLength[i],
+                    itemsDesc[i],
+                    itemsPrice[i],
+                    itemsAgeLimit[i],
+                    itemRate.getFloat(i, 0),
                     itemsImageResources.getResourceId(i, 0)));
         }
 
-        // Recycle the typed array.
         itemsImageResources.recycle();
-
-        // Notify the adapter of the change.
-        mAdapter.notifyDataSetChanged();
-        Log.d(LOG_TAG, "initializeData end");
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.d(LOG_TAG, "onCreateOptionsMenu end");
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.movie_list_menu, menu);
         MenuItem menuItem = menu.findItem(R.id.search_bar);
@@ -183,5 +241,13 @@ public class ShoppingActivity extends AppCompatActivity {
         }
 
         redCircle.setVisibility((cartItems > 0) ? VISIBLE : GONE);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(powerReceiver);
+
     }
 }

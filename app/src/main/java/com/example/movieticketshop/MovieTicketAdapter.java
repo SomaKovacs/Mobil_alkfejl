@@ -31,15 +31,14 @@ public class MovieTicketAdapter extends RecyclerView.Adapter<MovieTicketAdapter.
         nContext = context;
     }
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MovieTicketAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(nContext)
                 .inflate(R.layout.list_item, parent,false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MovieTicketAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(MovieTicketAdapter.ViewHolder holder, int position) {
         MovieTicket currentItem = mTicketItemsData.get(position);
 
         holder.bindTo(currentItem);
@@ -101,7 +100,8 @@ public class MovieTicketAdapter extends RecyclerView.Adapter<MovieTicketAdapter.
         private ImageView mItemImage;
         private RatingBar mRatingBar;
 
-        public ViewHolder(@NonNull View itemView) {
+
+        public ViewHolder(View itemView) {
             super(itemView);
 
             mTitleText = itemView.findViewById(R.id.title);
@@ -112,12 +112,8 @@ public class MovieTicketAdapter extends RecyclerView.Adapter<MovieTicketAdapter.
             mItemImage = itemView.findViewById(R.id.itemImage);
             mRatingBar = itemView.findViewById(R.id.ratingBar);
 
-            itemView.findViewById(R.id.add_to_cart).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ((ShoppingActivity)nContext).updateAlertIcon();
-                }
-            });
+            itemView.findViewById(R.id.add_to_cart).setOnClickListener(view -> ((ShoppingActivity)nContext).updateAlertIcon());
+
         }
 
         public void bindTo(MovieTicket currentItem) {
@@ -129,7 +125,6 @@ public class MovieTicketAdapter extends RecyclerView.Adapter<MovieTicketAdapter.
             mRatingBar.setRating(currentItem.getRatingInfo());
 
             Glide.with(nContext).load(currentItem.getImageResource()).into(mItemImage);
-
         }
     }
 }

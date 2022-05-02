@@ -17,6 +17,7 @@
     <string name="settings">Beállítások</string>
     <string name="cart">Kosár</string>
     <string name="search">Kereső</string>
+    <string name="remove_from_basket">Törlés</string>
 
     <string-array name="movie_item_age_rating">
         <item>R</item>
