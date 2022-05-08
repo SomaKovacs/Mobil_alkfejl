@@ -27,7 +27,7 @@ public class MovieTicketAdapter extends RecyclerView.Adapter<MovieTicketAdapter.
     private Context nContext;
     private int lastPosition = -1;
 
-    MovieTicketAdapter(Context context, ArrayList<MovieTicket> itemsData){
+    public MovieTicketAdapter(Context context, ArrayList<MovieTicket> itemsData){
         this.mTicketItemsData = itemsData;
         this.mTicketItemsDataAll = itemsData;
         nContext = context;
