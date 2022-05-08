@@ -1,4 +1,4 @@
-package com.example.movieticketshop;
+package com.example.movieticketshop.activity;
 
 
 import android.os.AsyncTask;

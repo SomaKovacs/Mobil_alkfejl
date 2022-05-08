@@ -1,4 +1,4 @@
-package com.example.movieticketshop;
+package com.example.movieticketshop.models;
 
 public class MovieTicket {
     private String id;

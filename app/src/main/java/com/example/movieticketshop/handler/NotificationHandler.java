@@ -1,4 +1,4 @@
-package com.example.movieticketshop;
+package com.example.movieticketshop.handler;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -9,6 +9,9 @@ import android.graphics.Color;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
+
+import com.example.movieticketshop.R;
+import com.example.movieticketshop.activity.ShoppingActivity;
 
 public class NotificationHandler {
     private static final String CHANNEL_ID = "shop_notification_channel";

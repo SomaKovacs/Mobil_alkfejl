@@ -1,4 +1,4 @@
-package com.example.movieticketshop;
+package com.example.movieticketshop.loader;
 
 import android.content.Context;
 

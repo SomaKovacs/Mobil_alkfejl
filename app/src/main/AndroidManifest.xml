@@ -10,13 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieTicketShop">
         <activity
-            android:name=".ShoppingActivity"
+            android:name=".activity.ShoppingActivity"
             android:exported="false" />
         <activity
-            android:name=".RegistrationActivity"
+            android:name=".activity.RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
